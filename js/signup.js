@@ -33,9 +33,12 @@ const form = document.querySelector(".form")
 const fullName = document.querySelector("#fullName")
 const email = document.querySelector("#email")
 const password = document.querySelector("#password")
+const signupButton = document.querySelector("#signup-btn")
 form.addEventListener("submit", async (e) => {
          e.preventDefault()
-         try {
+    signupButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> signing in...`
+    signupButton.disabled = true     
+    try {
          const userCredential = await createUserWithEmailAndPassword(Auth,email.value , password.value )
           const user = userCredential.user;   
           console.log("User created:", user.uid);
@@ -57,6 +60,7 @@ form.addEventListener("submit", async (e) => {
             console.log("CLASS REMOVED");
             
             errordiv.innerHTML = `${error.code} - ${error.message}`
+            signupButton.disabled = false 
           }
          }  
 

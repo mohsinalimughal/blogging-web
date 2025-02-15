@@ -10,10 +10,12 @@ const form= document.querySelector("#form")
 
 errordiv.classList.add("d-none");
 
-
+const loginButton = document.querySelector("#login-btn")
 
 form.addEventListener("submit",async(event)=>{
     event.preventDefault()
+    loginButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Logging in...`;
+    loginButton.disabled = true;
     signInWithEmailAndPassword(Auth,email.value,password.value)
     .then(()=>{
         console.log("user logged in")
@@ -23,6 +25,7 @@ form.addEventListener("submit",async(event)=>{
         console.log(error)
         errordiv.innerHTML = `${error.code} - ${error.message}`;
         errordiv.classList.remove("d-none");
+        loginButton.disabled = false;
     })
 })
 
