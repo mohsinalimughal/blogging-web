@@ -4,6 +4,8 @@
 
 var uid = null
 
+console.log("app js");
+
     onAuthStateChanged(Auth, async (user) => {
     if (user) {
         uid = user.uid;

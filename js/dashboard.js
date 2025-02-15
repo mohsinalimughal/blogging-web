@@ -12,13 +12,12 @@ const blogDescription = document.querySelector("#blogDescription")
 
 
 
-
 let uid = null
 
 onAuthStateChanged(Auth, async (user) => {
     if (user) {
         uid = user.uid;
-        getDataFromFirestore(uid)
+        await getDataFromFirestore()
     } else {
         window.location = "login.html"
     }
@@ -31,10 +30,10 @@ const logoutBtn = document.querySelector("#logoutBtn")
             console.log(error)
         });
     })
-
     
-
-
+    
+    
+    
     
     
     
@@ -57,8 +56,9 @@ const logoutBtn = document.querySelector("#logoutBtn")
 });
 
 
-const blogsContainer = document.querySelector("#blogsContainer")
+const blogsContainer = document.querySelector("#blogsContainer1")
 
+blogsContainer.innerHTML = ""
 // const renderblog = ()=>{
 //      blogsContainer.innerHTML += `
      
@@ -77,11 +77,12 @@ const blogsContainer = document.querySelector("#blogsContainer")
 //      `
 // }
 
-    async function getDataFromFirestore(uid) {
+    async function getDataFromFirestore() {
     const q = query(collection(db, "blogs"), where("userid", "==", uid));
+    console.log("Fetching blogs for UID:", uid);
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
-        blogsContainer.innerHTML = ""
+   
         querySnapshot.forEach((doc) => {
             blogsContainer.innerHTML += `
      
@@ -95,8 +96,6 @@ const blogsContainer = document.querySelector("#blogsContainer")
                     </div>
                 </div>
             </div>
-
-     
      `
             // blogtitle =  doc.data().blogtitle 
             // image =  doc.data().image 
