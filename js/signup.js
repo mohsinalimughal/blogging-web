@@ -35,29 +35,30 @@ const email = document.querySelector("#email")
 const password = document.querySelector("#password")
 form.addEventListener("submit", async (e) => {
          e.preventDefault()
-         createUserWithEmailAndPassword(Auth,email.value , password.value )
-         .then((userCredential) => {
+         try {
+         const userCredential = await createUserWithEmailAndPassword(Auth,email.value , password.value )
           const user = userCredential.user;   
           console.log("User created:", user.uid);
 
-          addDoc(collection(db, "users"), {
+          await addDoc(collection(db, "users"), {
             userid: user.uid,
             fulname: fullName.value,
             email: email.value,
             profileimage: profileimagelink
           });
-        console.log("user created")
+        console.log("DATA ADDED")
         window.location = "login.html"
 
-          })
-          .catch((error)=>{
+          
+        }
+          catch(error){
             console.log(error)
             errordiv.classList.remove("d-none")
             console.log("CLASS REMOVED");
             
             errordiv.innerHTML = `${error.code} - ${error.message}`
-          })
-         }
+          }
+         }  
 
   )
 
