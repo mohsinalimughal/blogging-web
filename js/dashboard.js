@@ -31,28 +31,61 @@ const logoutBtn = document.querySelector("#logoutBtn")
         });
     })
     
-    
-    
+    const blogbtn = document.querySelector("#blog-btn")
+    const errormessage = document.querySelector("#error-message")
     
     
     
     
     blogForm.addEventListener("submit", async (e) => {
         e.preventDefault(); 
+       
+    errormessage.classList.add("d-none")
+    errormessage.innerHTML = ""
+
+    if (blogTitle == null || blogDescription == null || profileimagelink == null) {
+
+        errormessage.classList.remove("d-none")
+        errormessage.innerHTML = "Please upload image and fill all the fields"
+        return
+    }
+
+
+
+        blogbtn.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> blog uploading...`;
+        blogbtn.disabled = true;
         
         try {
             await addDoc(collection(db, "blogs"), {
-            userid: uid,
-            blogtitle: blogTitle.value,
-            image: profileimagelink,
-            blogdescription: blogDescription.value,
-            bloggername: fullname,
-            bloggerprofile: profilepiclink
-        });
-        console.log("Blog added successfully!");
+                userid: uid,
+                blogtitle: blogTitle.value,
+                image: profileimagelink,
+                blogdescription: blogDescription.value,
+                bloggername: fullname,
+                bloggerprofile: profilepiclink
+            });
+            console.log("Blog added successfully!");
+            blogbtn.innerHTML = `Upload Blog`;
+            blogbtn.disabled = false;
+            blogTitle.value = "";
+            blogDescription.value = "";
+            profileimagelink = null
+            alert("Blog added successfully!");
+    
     } catch (error) {
         console.error("Error adding blog:", error);
+        blogbtn.disabled = false;
     }
+        
+
+
+
+        
+
+
+
+
+
 });
 
 
@@ -85,23 +118,32 @@ blogsContainer.innerHTML = ""
    
         querySnapshot.forEach((doc) => {
             blogsContainer.innerHTML += `
-     
-            <div class="col-md-6">
-                <div class="card">
-                    <img src="${doc.data().image}" class="card-img-top" alt="Blog Image">
-                    <div class="card-body">
-                        <h5 class="card-title">${doc.data().blogtitle}</h5>
-                        <p class="card-text">${doc.data().blogdescription}</p>
-                        <button class="btn btn-primary">Read More</button>
+                <div class="col-md-6 mb-4" id="blog-${doc.id}">
+                    <!-- User Info on Top -->
+                    <div class="d-flex align-items-center mb-3 p-3 bg-white shadow-sm rounded">
+                        <img src="${doc.data().bloggerprofile}" class="rounded-circle me-3" width="50" height="50" alt="User Profile" loading="lazy">
+                        <div>
+                            <h6 class="mb-0 fw-bold">${doc.data().bloggername}</h6>
+                            <small class="text-muted">Posted on ${new Date(doc.data().timestamp?.toDate()).toLocaleDateString()}</small>
+                        </div>
+                    </div>
+        
+                    <!-- Blog Card -->
+                    <div class="card border-0 shadow-sm">
+                        <img src="${doc.data().image}" class="card-img-top" alt="Blog Image" loading="lazy" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title fw-bold">${doc.data().blogtitle}</h5>
+                            <p class="card-text text-muted">${doc.data().blogdescription}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="blog-details.html?id=${doc.id}" class="btn btn-primary btn-sm">Read More</a>
+                                <button class="btn btn-outline-danger btn-sm delete-btn" data-id="${doc.id}">Delete</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-     `
-            // blogtitle =  doc.data().blogtitle 
-            // image =  doc.data().image 
-            // blogdescription =  doc.data().blogdescription 
-            console.log(doc.data())
-                });
+            `;
+        });
+        
         // renderblog()
     } else {
         console.log("No data in the blogs collection.");

@@ -143,6 +143,7 @@
                 <h3>Create a New Blog</h3>
             </div>
             <div class="card-body">
+                <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
                 <form id="blogForm">
                     <div class="mb-3">
                         <label for="blogTitle" class="form-label">Title</label>
@@ -159,7 +160,7 @@
                         <label for="blogDescription" class="form-label">Description</label>
                         <textarea class="form-control" id="blogDescription" rows="4" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">Upload Blog</button>
+                    <button type="submit" class="btn btn-primary w-100" id="blog-btn">Upload Blog</button>
                 </form>
             </div>
         </div>
