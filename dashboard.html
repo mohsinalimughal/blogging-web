@@ -74,6 +74,25 @@
             background: linear-gradient(135deg, #6a11cb, #2575fc);
             color: white;
         }
+        /* Custom Delete Button Styling */
+.delete-btn {
+    background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+    border: none;
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: white;
+    font-size: 14px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.delete-btn:hover {
+    background: linear-gradient(135deg, #ff1a1a, #ff4d4d);
+    transform: translateY(-2px);
+}
+
+.delete-btn:active {
+    transform: translateY(0);
+}
         #upload_widget {
             display: inline-block;
             padding: 10px 20px;

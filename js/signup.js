@@ -23,9 +23,10 @@ document.getElementById("upload_widget").addEventListener("click", function(){
   }, false);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const errordiv = document.querySelector("#error-message")
-errordiv.classList.add("d-none")
-console.log("CLASS ADDED")
+const errordiv = document.querySelector("#error-messagee")
+console.log("ERROR DIV",errordiv);
+
+
 
 
 
@@ -36,6 +37,18 @@ const password = document.querySelector("#password")
 const signupButton = document.querySelector("#signup-btn")
 form.addEventListener("submit", async (e) => {
          e.preventDefault()
+
+         if (profileimagelink == null) {
+           console.log("No image uploaded");
+           
+          errordiv.classList.remove("d-none")
+          errordiv.innerHTML = "Please upload image and fill all the fields"
+          return
+      }
+
+
+      errordiv.classList.add("d-none")
+   
     signupButton.innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> signing in...`
     signupButton.disabled = true     
     try {
@@ -51,7 +64,6 @@ form.addEventListener("submit", async (e) => {
           });
         console.log("DATA ADDED")
         window.location = "login.html"
-
           
         }
           catch(error){

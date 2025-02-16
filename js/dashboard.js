@@ -136,7 +136,7 @@ blogsContainer.innerHTML = ""
                             <p class="card-text text-muted">${doc.data().blogdescription}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <a href="blog-details.html?id=${doc.id}" class="btn btn-primary btn-sm">Read More</a>
-                                <button class="btn btn-outline-danger btn-sm delete-btn" data-id="${doc.id}">Delete</button>
+                                <button class="btn delete-btn btn-sm"    >Delete</button>
                             </div>
                         </div>
                     </div>
