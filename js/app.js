@@ -65,25 +65,24 @@ const userName = document.querySelector("#userName")
 
 
 
+        
 
 
-
-
-    async function getblogsFromFirestore() {
+        async function getblogsFromFirestore() {
     const q = query(collection(db, "blogs"));
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
         querySnapshot.forEach((doc) => {
             blogsContainer.innerHTML += `
             <div class="col-lg-4 col-md-6 mb-4">
-                <!-- User Info on Top -->
-                <div class="d-flex align-items-center mb-3 p-3 bg-white shadow-sm rounded">
-                    <img src="${doc.data().bloggerprofile}" class="rounded-circle me-3" width="50" height="50" alt="User Profile" loading="lazy">
+            <!-- User Info on Top -->
+            <div class="d-flex align-items-center mb-3 p-3 bg-white shadow-sm rounded">
+            <img src="${doc.data().bloggerprofile}" class="rounded-circle me-3" width="50" height="50" alt="User Profile" loading="lazy">
                     <div>
-                        <h6 class="mb-0 fw-bold">${doc.data().bloggername}</h6>
-                        <small class="text-muted">Posted on ${new Date(doc.data().timestamp?.toDate()).toLocaleDateString()}</small>
+                    <h6 class="mb-0 fw-bold">${doc.data().bloggername}</h6>
+                    <small class="text-muted">Posted on ${new Date(doc.data().timestamp?.toDate()).toLocaleDateString()}</small>
                     </div>
-                </div>
+                    </div>
         
                 <!-- Blog Card -->
                 <div class="card border-0 shadow-sm">
@@ -92,27 +91,40 @@ const userName = document.querySelector("#userName")
                         <h5 class="card-title fw-bold">${doc.data().blogtitle}</h5>
                         <p class="card-text text-muted">${doc.data().blogdescription}</p>
                         <div class="d-flex justify-content-between align-items-center">
-                            <a href="blog-details.html?id=${doc.id}" class="btn btn-primary btn-sm">Read More</a>
+                        <a id="readmorebtn" data-blog-id="${doc.id}"   class="btn btn-primary btn-sm readmorebtn">Read More</a>
                         </div>
-                    </div>
-                </div>
-            </div>
+                        </div>
+                        </div>
+                        </div>
         `;
+        
             // blogtitle =  doc.data().blogtitle 
             // image =  doc.data().image 
             // blogdescription =  doc.data().blogdescription 
             console.log(doc.data())
                 });
-        // renderblog()
-    } else {
-        console.log("No data in the blogs collection.");
-    }
-      }
+                // renderblog()
+            } else {
+                console.log("No data in the blogs collection.");
+            }
+        }
+        
+        
+        // const readmoreBtn = document.querySelectorAll("#readmorebtn")
+        // console.log(readmoreBtn)
+        
+        // readmoreBtn.addEventListener("click",()=>{
+        //       console.log("clicked")
+        //   })
 
 
-
-
-
+        blogsContainer.addEventListener("click", (event) => {
+            if (event.target && event.target.classList.contains("readmorebtn")) {
+                const blogId = event.target.dataset.blogId; // Use data attributes to store blog ID
+                console.log("Read More button clicked for blog ID:", blogId);
+                // Add your logic here
+            }
+        });
 
       
       export {profilepiclink,fullname,uid}
